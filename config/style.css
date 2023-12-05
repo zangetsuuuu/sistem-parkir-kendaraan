@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&display=swap');
+
+body {
+    font-family: "Albert Sans", sans-serif;
+}
+
+nav,
+.card {
+    box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2);
+}
