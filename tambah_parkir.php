@@ -1,28 +1,10 @@
 <?php
 include "config/koneksi.php";
 
-if (isset($_POST['tambah'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $jenis_kelamin = $_POST['jenis_kelamin'];
-    $no_telp = $_POST['no_telp'];
-    $alamat = $_POST['alamat'];
-
-    $result = mysqli_query($conn, "INSERT INTO operator (username, password, jenis_kelamin, no_telp, alamat) VALUES ('$username', '$password', '$jenis_kelamin', '$no_telp', '$alamat')");
-
-    if ($result) {
-        echo "<script>alert('Data berhasil ditambahkan!');</script>";
-        echo "<script>window.location.href='home_admin.php';</script>";
-    } else {
-        echo "<script>alert('Data gagal ditambahkan!');</script>";
-        echo "<script>window.location.href='home_admin.php';</script>";
-    }
-}
-
-elseif (isset($_POST['tambah_parkir'])) {
+if (isset($_POST['tambah_parkir'])) {
     date_default_timezone_set('Asia/Jakarta');
 
-    $id_parkir = "IP".rand(100, 999);
+    $id_parkir = "IP" . rand(100, 999);
     $plat_nomor = $_POST['plat_nomor'];
     $merk = $_POST['merk'];
     $jenis_kendaraan = $_POST['jenis_kendaraan'];
@@ -39,7 +21,7 @@ elseif (isset($_POST['tambah_parkir'])) {
 }
 
 $conn->close();
-?>  
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +74,7 @@ $conn->close();
     <div class="container">
         <!-- Title -->
         <div class="h2 text-center mb-3" style="margin-top: 120px;">Tambah Data</div>
-        <p class="text-center text-secondary mb-4">Input data baru operator</p>
+        <p class="text-center text-secondary mb-4">Input data parkir baru</p>
 
         <!-- Tabel Daftar Operator -->
         <div class="card border-0 px-4 py-2 rounded-4 shadow-sm">
@@ -105,45 +87,37 @@ $conn->close();
                     </div>
                 </div>
 
-                <!-- Form Tambah -->
-                <form method="POST" enctype="multipart/form-data" id="form-create" style="display: none;">
+                <!-- Form Tambah Parkir -->
+                <form method="POST" enctype="multipart/form-data" id="form-tambah" style="display: none;">
                     <div class="form-group mb-3">
-                        <label class="form-label">Username</label>
-                        <input type="text" class="form-control rounded-pill" name="username" placeholder="Masukkan Username" required>
+                        <label class="form-label">Plat Nomor</label>
+                        <input type="text" class="form-control rounded-pill" name="plat_nomor"
+                            placeholder="Masukkan Plat Nomor" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-control rounded-pill" name="password" placeholder="Masukkan Password" required>
+                        <label class="form-label">Jenis Kendaraan</label>
+                        <select name="jenis_kendaraan" class="form-control rounded-pill" required>
+                            <option>Pilih Jenis Kendaraan</option>
+                            <option value="Motor">Motor</option>
+                            <option value="Mobil">Mobil</option>
+                            <option value="Bis/Truk/Lainnya">Bis/Truk/Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Merk</label>
+                        <input type="text" class="form-control rounded-pill" name="merk"
+                            placeholder="Masukkan Merk Kendaraan" required>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="form-group mb-3">
-                                <label class="form-label">Jenis Kelamin</label>
-                                <select name="jenis_kelamin" class="form-control rounded-pill" required>
-                                    <option>Pilih Jenis Kelamin</option>
-                                    <option value="Laki-laki">Laki-laki</option>
-                                    <option value="Perempuan">Perempuan</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group mb-3">
-                                <label class="form-label">No Telepon</label>
-                                <input type="text" name="no_telp" class="form-control rounded-pill"
-                                    placeholder="Masukkan No Telepon" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label class="form-label">Alamat</label>
-                        <textarea name="alamat" class="form-control rounded-4" cols="30" rows="3" style="resize: none;" placeholder="Masukkan Alamat" required></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <a href="javascript:history.go(-1)" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3"><i class="fa-solid fa-arrow-left me-2"></i>Back</a>
+                            <a href="javascript:history.go(-1)"
+                                class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3"><i
+                                    class="fa-solid fa-arrow-left me-2"></i>Back</a>
                         </div>
                         <div class="col-10">
-                            <button type="submit" name="tambah" class="btn btn-primary form-control rounded-pill text-uppercase mt-3" onclick="showPopup(idParkir, waktuMasuk)">Tambah</button>
+                            <button type="submit" name="tambah_parkir"
+                                class="btn btn-primary form-control rounded-pill text-uppercase mt-3"
+                                >Tambah Parkir</button>
                         </div>
                     </div>
                 </form>
@@ -159,12 +133,12 @@ $conn->close();
             if (confirm("Apakah Anda Yakin Ingin Logout?")) {
                 window.location.href = "index.php";
             }
-        } 
+        }
 
         // Script loading
         function showTable() {
             document.getElementById("loading").style.display = "none";
-            document.getElementById("form-create").style.display = "block";
+            document.getElementById("form-tambah").style.display = "block";
         }
 
         setTimeout(showTable, 500);

@@ -9,7 +9,7 @@ if (isset($_POST['update'])) {
         $no_telp = $_POST['no_telp'];
         $alamat = $_POST['alamat'];
 
-        $result = mysqli_query($conn, "UPDATE operator SET username='$username', jenis_kelamin='$jenis_kelamin', no_telp='$no_telp', alamat='$alamat' WHERE id_operator = '$_GET[id]'");
+        $result = mysqli_query($conn, "UPDATE operator SET username = '$username', jenis_kelamin = '$jenis_kelamin', no_telp = '$no_telp', alamat = '$alamat' WHERE id_operator = '$_GET[id]'");
 
         if ($result) {
             echo "<script>alert('Data berhasil diubah!');</script>";
@@ -40,131 +40,148 @@ if (isset($_GET['id'])) {
         $alamat = $row['alamat'];
     } 
 }
-?>
+
+$conn->close();
+?> 
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Data Operator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="config/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Admin</title>
+
+    <!-- Fontawesome  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css"
+        integrity="sha512-d0olNN35C6VLiulAobxYHZiXJmq+vl+BGIgAxQtD5+kqudro/xNMvv2yIHAciGHpExsIbKX3iLg+0B6d0k4+ZA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Eksternal CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    <nav class="navbar navbar-light bg-light p-3 mb-4">
-        <div class="navbar-brand">
-            <img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2016/240/iconmonstr-car-21.png" width="30" height="30" class="d-inline-block align-top" alt="">
-            <span class="font-weight-bold" style="letter-spacing: 0.5px;">SISTEM PARKIR KENDARAAN</span>
-        </div>
-        <span class="navbar-text mx-auto">
-            <?php
-            date_default_timezone_set('Asia/Jakarta');
-            $hari = date('l');
-            $tanggal = date('d F Y');
-            echo $hari . ', ' . $tanggal;
-            ?>
-        </span>
-        <div class="navbar-brand">
-            <img src="assets/person.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-            <span class="p-2">Admin</span>
-        </div>
-        <a href="index.php" class="navbar-brand" onclick="logout()">
-            <img src="assets/logout.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-            <span class="p-2">Logout</span>
-        </a>
-    </nav>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <div class="card">
-                    <div class="card-header">
-                        <span class="font-weight-bold">Ubah Data</span>
-                    </div>
-                    <div class="card-body">
-                        <form method="post">
-                            <div class="form-group">
-                                <label class="form-label">Username</label>
-                                <input type="text" name="username" value="<?= $username ?>" class="form-control" placeholder="Masukkan Username">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Password</label>
-                                <input type="password" name="password" value="<?= $password ?>" class="form-control" placeholder="Masukkan Password">
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label class="form-label">Jenis Kelamin</label>
-                                        <select name="jenis_kelamin" class="form-control">
-                                            <option value="<?= $jenis_kelamin ?>"></option>
-                                            <option value="Laki-laki">Laki-laki</option>
-                                            <option value="Perempuan">Perempuan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label class="form-label">No Telepon</label>
-                                        <input type="text" name="no_telp" value="<?= $no_telp ?>" class="form-control" placeholder="Masukkan No Telepon">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Alamat</label>
-                                <textarea name="alamat" value="<?= $alamat ?>" class="form-control" cols="30" rows="4" style="resize: none;" placeholder="Masukkan Alamat"></textarea>
-                            </div>
-                            <div>
-                                <hr>
-                                <button type="submit" name="update" class="btn btn-block btn-dark">Simpan Perubahan</button>
-                            </div>
-                        </form>
-                    </div>
+
+<body style="background-color: #F8FFFC;">
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg py-3 shadow">
+        <div class="container">
+            <div class="navbar-brand d-inline-block align-text-top">
+                <img src="assets/images/main-logo.svg" alt="Logo" width="30" height="30" class="me-2"
+                    style="padding-bottom: 2px;">
+                <span class="text-white font-weight-bold h5 me-2">SISTEM PARKIR KENDARAAN</span>
+                <span style="font-size: 14px; color: #d4f8ea;">
+                    <?php
+                    date_default_timezone_set('Asia/Jakarta');
+                    $hari = date('l');
+                    $tanggal = date('d F Y');
+                    echo $hari . ', ' . $tanggal;
+                    ?>
+                </span>
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="navbar-brand">
+                    <img src="assets/images/profile.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+                    <span class="text-white p-2">Admin</span>
                 </div>
+                <button type="submit" class="btn btn-outline rounded-pill navbar-brand text-white px-3"
+                    style="margin-right: 0px;" onclick="logout()">Logout</button>
             </div>
         </div>
-        <div class="card mt-5 mx-auto" style="max-width: 1000px;">
-            <div class="card-body">
-                <h5 class="card-title font-weight-bold">Data Operator</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Username</th>
-                            <th>Jenis Kelamin</th>
-                            <th>No Telepon</th>
-                            <th>Alamat</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
+    </nav>
 
-                        $no = 1;
-                        $result = mysqli_query($conn, "SELECT * FROM operator order by id_operator asc");
-                        while ($row = mysqli_fetch_array($result)) :
-                        ?>
-                            <tr>
-                                <td><?= $no++ ?></td>
-                                <td><?= $row['username'] ?></td>
-                                <td><?= $row['jenis_kelamin'] ?></td>
-                                <td><?= $row['no_telp'] ?></td>
-                                <td><?= $row['alamat'] ?></td>
-                                <td>
-                                    <a href="ubah.php?id=<?= $row['id_operator']; ?>" class="btn btn-block btn-dark">Ubah</a>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
+    <!-- Konten -->
+    <div class="container">
+        <!-- Title -->
+        <div class="h2 text-center mb-3" style="margin-top: 120px;">Ubah Data</div>
+        <p class="text-center text-secondary mb-4">Input data operator yang ingin diubah</p>
+
+        <!-- Tabel Daftar Operator -->
+        <div class="card border-0 px-4 py-2 rounded-4 shadow-sm">
+            <div class="card-body">
+                <!-- Animasi loading -->
+                <div id="loading">
+                    <div class="d-flex align-items-center">
+                        <strong>Loading...</strong>
+                        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                    </div>
+                </div>
+
+                <!-- Form Ubah -->
+                <form method="POST" enctype="multipart/form-data" id="form-ubah" style="display: none;">
+                    <div class="form-group mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control rounded-pill" name="username" placeholder="Masukkan Username" value="<?= $username ?>" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control rounded-pill" name="password" placeholder="Masukkan Password" value="<?= $password ?>" required>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <select name="jenis_kelamin" class="form-control rounded-pill" required>
+                                    <option>Pilih Jenis Kelamin</option>
+                                    <option value="Laki-laki" <?= ($jenis_kelamin == 'Laki-laki') ? 'selected' : '' ?>>Laki-laki</option>
+                                    <option value="Perempuan" <?= ($jenis_kelamin == 'Perempuan') ? 'selected' : '' ?>>Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="form-label">No Telepon</label>
+                                <input type="text" name="no_telp" class="form-control rounded-pill"
+                                    placeholder="Masukkan No Telepon" value="<?= $no_telp ?>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="form-label">Alamat</label>
+                        <textarea name="alamat" class="form-control rounded-4" cols="30" rows="3" style="resize: none;" placeholder="Masukkan Alamat" required><?= $alamat ?></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a href="javascript:history.go(-1)" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3"><i class="fa-solid fa-arrow-left me-2"></i>Back</a>
+                        </div>
+                        <div class="col-10">
+                            <button type="submit" name="update" class="btn btn-primary form-control rounded-pill text-uppercase mt-3">Ubah</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <script>
+        // Script Logout
         function logout() {
-            window.location.href = "index.php";
+            event.preventDefault(); // Mencegah tindakan default dari link
+
+            if (confirm("Apakah Anda Yakin Ingin Logout?")) {
+                window.location.href = "index.php";
+            }
+        } 
+
+        // Script loading
+        function showForm() {
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("form-ubah").style.display = "block";
         }
+
+        setTimeout(showForm, 200);
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

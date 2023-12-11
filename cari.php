@@ -15,11 +15,11 @@ include "login.php";
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    <!-- Eksternal CSS -->
+    <!-- Local CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 
     <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>    
 </head>
 
 <body style="background-color: #F8FFFC;">
@@ -45,7 +45,7 @@ include "login.php";
                     <span class="text-white p-2">Admin</span>
                 </div>
                 <button type="submit" class="btn btn-outline rounded-pill navbar-brand text-white px-3"
-                    style="margin-right: 0px;" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout</button>
+                    style="margin-right: 0px;" onclick="logout()">Logout</button>
             </div>
         </div>
     </nav>
@@ -56,9 +56,10 @@ include "login.php";
         <div class="h2 text-center mb-3" style="margin-top: 120px;">Daftar Operator</div>
         <p class="text-center text-secondary mb-4">Selamat datang, <span class="text-capitalize"><?= $_SESSION["username"]; ?></span></p>
 
-        <!-- Menu Tambah Data dan Back -->
+        <!-- Menu Tambah Data -->
         <div class="card mb-3 border-0 px-4 py-2 rounded-4 shadow-sm">
             <div class="card-body">
+                <a href="javascript:history.go(-1)" class="btn btn-secondary rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-arrow-left me-2"></i>Back</a>
                 <a href="tambah.php" class="btn btn-primary rounded-pill px-4 py-2"><i class="fa-solid fa-plus me-2"></i>Tambah Data</a>
             </div>
         </div>
@@ -66,16 +67,12 @@ include "login.php";
         <!-- Tabel Daftar Operator -->
         <div class="card border-0 px-4 py-2 rounded-4 shadow-sm">
             <div class="card-body">
-                <!-- Jumlah operator -->
-                <?php
-                $result = mysqli_query($conn, "SELECT COUNT(*) AS total FROM operator");
-                $row = mysqli_fetch_assoc($result);
-                $totalOperator = $row['total'];
-                ?>
+                
+                <!-- Info Tabel -->
                 <div class="d-flex d-flex justify-content-between">
-                    <div id="table-info" style="display: none; margin-top: 12px;">Menampilkan <?= $totalOperator ?> Data Operator</div>
+                    <?php $keyword = $_GET['keyword']; ?>
+                    <div id="table-info" style="display: none; margin-top: 12px;">Hasil Pencarian: <?= $keyword ?></div>
 
-                    <!-- Search box -->
                     <form method="GET" action="cari.php" class="mb-4" id="table-cari" style="display: none;">
                         <div class="input-group">
                             <input type="text" class="form-control rounded-pill me-2" name="keyword" placeholder="Cari operator...">
@@ -92,7 +89,6 @@ include "login.php";
                     </div>
                 </div>
 
-                <!-- Tabel daftar operator -->
                 <table class="table table-bordered table-striped table-hover text-center" style="display: none; border-radius: 40px;" id="table-data">
                     <thead>
                         <tr>
@@ -106,10 +102,11 @@ include "login.php";
                     </thead>
                     <tbody>
                         <?php
-                        $no = 1;
-                        $result = mysqli_query($conn, "SELECT * FROM operator ORDER BY id_operator ASC");
+                        $keyword = $_GET['keyword'];
+                        $query = "SELECT * FROM operator WHERE username LIKE '%$keyword%'";
+                        $result = mysqli_query($conn, $query);
 
-                        // Looping untuk menampilkan data operator
+                        $no = 1;
                         while ($row = mysqli_fetch_array($result)) :
                         ?>
                             <tr>
@@ -119,8 +116,8 @@ include "login.php";
                                 <td class="py-3"><?= $row['no_telp'] ?></td>
                                 <td class="py-3"><?= $row['alamat'] ?></td>
                                 <td class="py-3">
-                                    <a href="ubah.php?id=<?= $row['id_operator']; ?>"><i class="fa-solid fa-pen fa-lg fa-fade me-2"></i></a>
-                                    <a href="hapus.php?id=<?= $row['id_operator']; ?>"><i class="fa-solid fa-trash fa-lg fa-fade ms-2"></i></a>
+                                    <a href="ubah.php?id=<?= $row['id_operator']; ?>" class="btn btn-info rounded-pill px-3 me-1">Ubah</a>
+                                    <a href="hapus.php?id=<?= $row['id_operator']; ?>" class="btn btn-danger rounded-pill px-3 ms-1">Hapus</a>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
@@ -131,6 +128,7 @@ include "login.php";
     </div>
 
     <script>
+        // Script Logout
         function logout() {
             event.preventDefault(); // Mencegah tindakan default dari link
 
@@ -139,6 +137,7 @@ include "login.php";
             }
         } 
 
+        // Script Loading
         function showTable() {
             document.getElementById("loading").style.display = "none";
             document.getElementById("table-data").style.display = "table";

@@ -1,82 +1,100 @@
-<?php include "config/koneksi.php";
+<?php
+include "config/koneksi.php";
+include "login.php";
 
-session_start();
-
-// Proses login
-if (isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $result = mysqli_query($conn, "SELECT * FROM operator WHERE username = '$username' AND password = '$password'");
-
-    if ($result) {
-        $_SESSION["username"] = $username;
-        header("location: home.php");
-    } else {
-        echo "<script>alert('Username atau Password Salah!');
-        document.location.href='index.php'</script>";
-    }
-}
+$conn->close()
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="config/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    <nav class="navbar navbar-light bg-light p-3">
-        <div class="navbar-brand">
-            <img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2016/240/iconmonstr-car-21.png" width="30" height="30" class="d-inline-block align-top" alt="">
-            <span class="font-weight-bold" style="letter-spacing: 0.5px;">SISTEM PARKIR KENDARAAN</span>
+
+<body style="background-color: #EEFCF6;">
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg py-3 shadow">
+        <div class="container">
+            <div class="navbar-brand d-inline-block align-text-top">
+                <img src="assets/images/main-logo.svg" alt="Logo" width="30" height="30" class="me-2"
+                    style="padding-bottom: 2px;">
+                <span class="text-white font-weight-bold h5">SISTEM PARKIR KENDARAAN</span>
+            </div>
+            <span class="navbar-text text-white">
+                <?php
+                date_default_timezone_set('Asia/Jakarta');
+                $hari = date('l');
+                $tanggal = date('d F Y');
+                echo $hari . ', ' . $tanggal;
+                ?>
+            </span>
         </div>
-        <span class="navbar-text">
-            <?php
-            date_default_timezone_set('Asia/Jakarta');
-            $hari = date('l');
-            $tanggal = date('d F Y');
-            echo $hari . ', ' . $tanggal;
-            ?>
-        </span>
     </nav>
+
+    <!-- Form Login -->
     <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
-                <div class="h3 text-center mb-4 mt-5">Login Operator</div>
-                <div class="card">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="index.php">Operator</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" style="color: grey;" href="admin.php">Admin</a>
-                            </li>
-                        </ul>
+        <div class="card mx-auto rounded-4 shadow" style="max-width: 500px; margin-top: 160px;">
+            <div class="card-body p-5">
+                <div class="card-title h2 text-center mb-3">Login</div>
+                <p class="card-text text-center text-secondary mb-4" style="font-size: 14px;">Silahkan Isi Username dan Password!</p>
+                <hr>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="text-center mt-4 mb-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input rounded-pill" type="checkbox" name="operator"
+                                value="Operator" onclick="uncheckOther(this, 'admin')">
+                            <label class="form-check-label">Operator</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input rounded-pill" type="checkbox" name="admin" value="Admin"
+                                onclick="uncheckOther(this, 'operator')">
+                            <label class="form-check-label">Admin</label>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <form method="POST">
-                            <div class="form-group">
-                                <label>Username</label>
-                                <input type="text" class="form-control" name="username" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" name="password" required>
-                            </div>
-                            <button type="submit" name="login" class="btn btn-primary btn-block mt-4" style="letter-spacing: 1.5px;">LOGIN</button>
-                        </form>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control rounded-pill" name="username" required>
                     </div>
-                </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control rounded-pill" name="password" required>
+                    </div>
+                    <button type="submit" name="login"
+                        class="btn btn-primary form-control rounded-pill text-uppercase mt-3">Login</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+    <!-- Checkbox Script -->
+    <script>
+        function uncheckOther(checkbox, other) {
+            var checkboxes = document.getElementsByName(other);
+            checkboxes.forEach(function (cb) {
+                if (cb !== checkbox) {
+                    cb.checked = false;
+                }
+            });
+        }
+    </script>
 
+    <!-- Bootstrap Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

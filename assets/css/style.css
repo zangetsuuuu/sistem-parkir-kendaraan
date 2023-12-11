@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: "Sora", sans-serif;
+}
+
+.container {
+    max-width: 1400px;
+}
+
+.navbar {
+    background: #26C485;
+}
+
+.btn-primary {
+    background-color: #26C485;
+    border-color: #26C485;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #1b8971;
+    border-color: #1b8971;
+}
+
+.btn-outline {
+    border-color: #d4f8ea;
+    border-color: #fff;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-outline:hover {
+    background-color: #1b8971;
+    border-color: #1b8971;
+}
+
+table tbody tr td a .btn-warning {
+    background-color: #74b7a5;
+    border-color: #74b7a5;
+    transition: 0.2s ease-in-out;
+}
+
+table tbody tr td a .btn-warning:hover {
+    background-color: #94c4bc;
+    border-color: #94c4bc;
+}
+
+.fa-solid.fa-trash {
+    color: #CE3434;
+}
+
+.fa-solid.fa-trash:hover {
+    color: #B52C2C;
+}
