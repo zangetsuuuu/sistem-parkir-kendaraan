@@ -50,7 +50,8 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Admin</title>
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
+    <title>Ubah Data</title>
 
     <!-- Fontawesome  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css"
@@ -68,7 +69,7 @@ $conn->close();
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
 
-<body style="background-color: #F8FFFC;">
+<body style="background-color: #EEFCF6;">
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg py-3 shadow">
         <div class="container">

@@ -9,7 +9,8 @@ include "login.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Admin</title>
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
+    <title>Cari Kendaraan</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -22,7 +23,7 @@ include "login.php";
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>    
 </head>
 
-<body style="background-color: #F8FFFC;">
+<body style="background-color: #EEFCF6;">
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg py-3 shadow">
         <div class="container">

@@ -9,7 +9,31 @@ include "login.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
     <title>Halaman Admin</title>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 80px auto;
+            padding: 40px;
+            border: 1px solid #888;
+            max-width: 1200px;
+            width: 80%;
+            border-radius: 10px;
+        }
+    </style>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -22,7 +46,7 @@ include "login.php";
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
 
-<body style="background-color: #F8FFFC;">
+<body style="background-color: #EEFCF6;">
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg py-3 shadow">
         <div class="container">
@@ -59,7 +83,64 @@ include "login.php";
         <!-- Menu Tambah Data dan Back -->
         <div class="card mb-3 border-0 px-4 py-2 rounded-4 shadow-sm">
             <div class="card-body">
-                <a href="tambah.php" class="btn btn-primary rounded-pill px-4 py-2"><i class="fa-solid fa-plus me-2"></i>Tambah Data</a>
+                <button onclick="formTambahOperator()" class="btn btn-primary rounded-pill px-4 py-2"><i class="fa-solid fa-plus me-2"></i>Tambah Operator</button>
+            </div>
+        </div>
+
+        <!-- Form Tambah Operator -->
+        <div id="tambahOperator" class="modal">
+            <div class="modal-content">
+                <div class="h3">Tambah Operator</div><hr style="margin-top: 0px; margin-bottom: 30px;">
+                <form action="tambah.php" method="POST" enctype="multipart/form-data" id="form-tambah-operator">
+                    <div class="form-group mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control rounded-pill" name="username"
+                            placeholder="Masukkan Username" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="text" class="form-control rounded-pill" name="password"
+                            placeholder="Masukkan Password" required>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <select name="jenis_kelamin" class="form-control rounded-pill" required>
+                                    <option>Pilih Jenis Kelamin</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="form-label">No Telepon</label>
+                                <input type="text" class="form-control rounded-pill" name="no_telp"
+                                    placeholder="Masukkan No Telepon" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label class="form-label">Alamat</label>
+                        <textarea name="alamat" class="form-control rounded-4" cols="30" rows="3" style="resize: none;" placeholder="Masukkan Alamat" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3"
+                                onclick="closeOperator()">
+                                <i class="fa-solid fa-arrow-left me-2"></i>Back
+                            </button>
+                        </div>
+                        <div class="col-10">
+                            <button type="submit" name="tambah"
+                                class="btn btn-primary form-control rounded-pill text-uppercase mt-3">
+                                Tambah Parkir
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -147,6 +228,17 @@ include "login.php";
         }
 
         setTimeout(showTable, 500);
+
+        // Form tambah operator
+        function formTambahOperator() {
+            var modal = document.getElementById('tambahOperator');
+            modal.style.display = 'block';
+        }
+
+        function closeOperator() {
+            var modal = document.getElementById('tambahOperator');
+            modal.style.display = 'none';
+        }
     </script>
 
     <!-- Bootstrap Javascript -->

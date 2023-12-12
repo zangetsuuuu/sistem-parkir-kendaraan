@@ -9,7 +9,31 @@ include "login.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Admin</title>
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
+    <title>Halaman Operator</title>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 150px auto;
+            padding: 40px;
+            border: 1px solid #888;
+            max-width: 1200px;
+            width: 80%;
+            border-radius: 10px;
+        }
+    </style>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -42,10 +66,11 @@ include "login.php";
             <div class="d-flex justify-content-end">
                 <div class="navbar-brand">
                     <img src="assets/images/profile.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-                    <span class="text-white p-2">Admin</span>
+                    <span class="text-white p-2">Operator</span>
                 </div>
                 <button type="submit" class="btn btn-outline rounded-pill navbar-brand text-white px-3"
-                    style="margin-right: 0px;" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout</button>
+                    style="margin-right: 0px;" onclick="logout()"><i
+                        class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout</button>
             </div>
         </div>
     </nav>
@@ -54,14 +79,76 @@ include "login.php";
     <div class="container">
         <!-- Title -->
         <div class="h2 text-center mb-3" style="margin-top: 120px;">Daftar Parkir Kendaraan</div>
-        <p class="text-center text-secondary mb-4">Selamat datang, <span class="text-capitalize"><?= $_SESSION["username"]; ?></span></p>
+        <p class="text-center text-secondary mb-4">Selamat datang, <span class="text-capitalize">
+                <?= $_SESSION["username"]; ?>
+            </span></p>
 
         <!-- Menu  -->
         <div class="card mb-3 border-0 px-4 py-2 rounded-4 shadow-sm">
             <div class="card-body">
-                <a href="tambah_parkir.php" class="btn btn-primary rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-plus me-2"></i>Tambah Data</a>
-                <a href="keluar_parkir.php" class="btn btn-danger rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-xmark me-2"></i>Keluar Parkir</a>
+                <button onclick="formTambahKendaraan()" class="btn btn-primary rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-plus me-2"></i>Tambah Kendaraan</button>
+                <button onclick="formKeluarParkir()" class="btn btn-danger rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-xmark me-2"></i>Keluar Parkir</button>
                 <a href="laporan.php" class="btn btn-secondary rounded-pill px-4 py-2"><i class="fa-solid fa-file-lines me-2"></i>Buat Laporan</a>
+            </div>
+        </div>
+
+        <!-- Form Tambah Parkir -->
+        <div id="tambahKendaraan" class="modal">
+            <div class="modal-content">
+                <div class="h3">Tambah Kendaraan</div><hr style="margin-top: 0px; margin-bottom: 30px;">
+                <form action="tambah.php" method="POST" enctype="multipart/form-data" id="form-tambah-kendaraan">
+                    <div class="form-group mb-3">
+                        <label class="form-label">Plat Nomor</label>
+                        <input type="text" class="form-control rounded-pill" name="plat_nomor"
+                            placeholder="Masukkan Plat Nomor" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Jenis Kendaraan</label>
+                        <select name="jenis_kendaraan" class="form-control rounded-pill" required>
+                            <option>Pilih Jenis Kendaraan</option>
+                            <option value="Motor">Motor</option>
+                            <option value="Mobil">Mobil</option>
+                            <option value="Bis/Truk/Lainnya">Bis/Truk/Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Merk</label>
+                        <input type="text" class="form-control rounded-pill" name="merk" placeholder="Masukkan Merk Kendaraan" required>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3" onclick="closeTambahKendaraan()"><i class="fa-solid fa-arrow-left me-2"></i>Back</button>
+                        </div>
+                        <div class="col-10">
+                            <button type="submit" name="tambah_parkir" class="btn btn-primary form-control rounded-pill text-uppercase mt-3">Tambah Parkir</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Form Keluar Parkir -->
+        <div id="keluarParkir" class="modal">
+            <div class="modal-content">
+                <div class="h3">Keluar Parkir</div><hr style="margin-top: 0px; margin-bottom: 30px;">
+                <form action="keluar_parkir.php" method="POST" enctype="multipart/form-data" id="form-keluar-parkir">
+                    <div class="form-group mb-3">
+                        <label class="form-label">ID Parkir</label>
+                        <input type="text" class="form-control rounded-pill" name="id_parkir"
+                            placeholder="Masukkan ID Parkir" required>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3" onclick="closeKeluarParkir()"><i class="fa-solid fa-arrow-left me-2"></i>Back</button>
+                        </div>
+                        <div class="col-10">
+                            <button type="submit" name="keluar"
+                                class="btn btn-primary form-control rounded-pill text-uppercase mt-3">
+                                Konfirmasi
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -75,13 +162,17 @@ include "login.php";
                 $totalParkir = $row['total'];
                 ?>
                 <div class="d-flex d-flex justify-content-between">
-                    <div id="table-info" style="display: none; margin-top: 12px;">Menampilkan <?= $totalParkir ?> Data Parkir</div>
+                    <div id="table-info" style="display: none; margin-top: 12px;">Menampilkan
+                        <?= $totalParkir ?> Data Parkir
+                    </div>
 
                     <!-- Search box -->
                     <form method="GET" action="cari_parkir.php" class="mb-4" id="table-cari" style="display: none;">
                         <div class="input-group">
-                            <input type="text" class="form-control rounded-pill me-2" name="keyword" placeholder="Cari data parkir...">
-                            <button type="submit" class="btn btn-primary rounded-pill px-4"><i class="fa-solid fa-magnifying-glass me-2"></i>Cari</button>
+                            <input type="text" class="form-control rounded-pill me-2" name="keyword"
+                                placeholder="Cari data parkir...">
+                            <button type="submit" class="btn btn-primary rounded-pill px-4"><i
+                                    class="fa-solid fa-magnifying-glass me-2"></i>Cari</button>
                         </div>
                     </form>
                 </div>
@@ -95,10 +186,11 @@ include "login.php";
                 </div>
 
                 <!-- Tabel daftar operator -->
-                <table class="table table-bordered table-striped table-hover table-fit text-center" style="display: none; border-radius: 40px;" id="table-data">
+                <table class="table table-bordered table-striped table-hover table-fit text-center"
+                    style="display: none; border-radius: 40px;" id="table-data">
                     <thead>
                         <tr>
-                            <th class="py-3" scope="col">No</th>
+                            <th class="py-3">No</th>
                             <th class="py-3">ID Parkir</th>
                             <th class="py-3">Plat Nomor</th>
                             <th class="py-3">Jenis Kendaraan</th>
@@ -110,33 +202,33 @@ include "login.php";
                         </tr>
                     </thead>
                     <tbody>
-                    <?php
-                    $no = 1;
-                    $result = mysqli_query($conn, "SELECT * FROM parkir ORDER BY waktu_masuk DESC ");
+                        <?php
+                        $no = 1;
+                        $result = mysqli_query($conn, "SELECT * FROM parkir ORDER BY waktu_masuk DESC ");
 
-                    // Looping untuk menampilkan data operator
-                    while ($row = mysqli_fetch_array($result)) :
-                        ?>
-                        <tr>
-                            <td class="py-3"><?= $no++ ?></td>
-                            <td class="py-3"><?= $row['id_parkir'] ?></td>
-                            <td class="py-3"><?= $row['plat_nomor'] ?></td>
-                            <td class="py-3"><?= $row['jenis_kendaraan'] ?></td>
-                            <td class="py-3"><?= $row['merk'] ?></td>
-                            <td class="py-3"><?= date('d-m-Y, H:i:s', strtotime($row['waktu_masuk'])) ?> WIB</td>
-                            <td class="py-3">
-                                <?php
-                                if ($row['waktu_keluar'] == null) {
-                                    echo "---";
-                                } else {
-                                    echo date('d-m-Y, H:i:s', strtotime($row['waktu_keluar'])) . " WIB";
-                                }
-                                ?>
-                            </td>
-                            <td class="py-3"><?= $row['status_parkir'] ?></td>
-                            <td class="py-3"><a href="cetak.php?id=<?= $row['id_parkir'] ?>"><i class="fa-solid fa-print" style="color: #26C485;"></i></a></td>
-                        </tr>
-                    <?php endwhile; ?>
+                        // Looping untuk menampilkan data operator
+                        while ($row = mysqli_fetch_array($result)):
+                            ?>
+                            <tr>
+                                <td class="py-3"><?= $no++ ?></td>
+                                <td class="py-3"><?= $row['id_parkir'] ?></td>
+                                <td class="py-3"><?= $row['plat_nomor'] ?></td>
+                                <td class="py-3"><?= $row['jenis_kendaraan'] ?></td>
+                                <td class="py-3"><?= $row['merk'] ?></td>
+                                <td class="py-3"><?= date('d-m-Y, H:i:s', strtotime($row['waktu_masuk'])) ?> WIB</td>
+                                <td class="py-3">
+                                    <?php
+                                    if ($row['waktu_keluar'] == null) {
+                                        echo "---";
+                                    } else {
+                                        echo date('d-m-Y, H:i:s', strtotime($row['waktu_keluar'])) . " WIB";
+                                    }
+                                    ?>
+                                </td>
+                                <td class="py-3"><?= $row['status_parkir'] ?></td>
+                                <td class="py-3"><a href="cetak.php?id=<?= $row['id_parkir'] ?>"><i class="fa-solid fa-print" style="color: #26C485;"></i></a></td>
+                            </tr>
+                        <?php endwhile; ?>
                     </tbody>
                 </table>
             </div>
@@ -150,7 +242,7 @@ include "login.php";
             if (confirm("Apakah Anda Yakin Ingin Logout?")) {
                 window.location.href = "index.php";
             }
-        } 
+        }
 
         function showTable() {
             document.getElementById("loading").style.display = "none";
@@ -160,6 +252,28 @@ include "login.php";
         }
 
         setTimeout(showTable, 500);
+
+        // Form tambah parkir
+        function formTambahKendaraan() {
+            var modal = document.getElementById('tambahKendaraan');
+            modal.style.display = 'block';
+        }
+
+        function closeTambahKendaraan() {
+            var modal = document.getElementById('tambahKendaraan');
+            modal.style.display = 'none';
+        }
+
+        // Form keluar parkir
+        function formKeluarParkir() {
+            var modal = document.getElementById('keluarParkir');
+            modal.style.display = 'block';
+        }
+
+        function closeKeluarParkir() {
+            var modal = document.getElementById('keluarParkir');
+            modal.style.display = 'none';
+        }
     </script>
 
     <!-- Bootstrap Javascript -->
