@@ -19,13 +19,13 @@ $conn->close()
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Local CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
 
-<body style="background-color: #EEFCF6;">
+<body>
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg py-3 shadow">
         <div class="container">
@@ -47,7 +47,7 @@ $conn->close()
 
     <!-- Form Login -->
     <div class="container">
-        <div class="card mx-auto rounded-4 shadow" style="max-width: 500px; margin-top: 160px;">
+        <div class="card mx-auto rounded-4 shadow" style="max-width: 450px; margin-top: 140px;">
             <div class="card-body p-5">
                 <div class="card-title h2 text-center mb-3">Login</div>
                 <p class="card-text text-center text-secondary mb-4" style="font-size: 14px;">Silahkan Isi Username dan Password!</p>

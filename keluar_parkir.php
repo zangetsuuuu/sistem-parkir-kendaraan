@@ -61,86 +61,31 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/images/favicon.svg">
     <title>Biaya Parkir</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        .popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-        }
 
-        .popup-inner {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            max-width: 100%;
-            text-align: center;
-        }
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-        /* Style untuk judul */
-        .popup-inner h4 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #333;
-        }
+    <!-- Eksternal CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
 
-        /* Style untuk garis pemisah */
-        .popup-inner hr {
-            border: 1px solid #ddd;
-            margin: 15px 0;
-        }
-
-        /* Style untuk teks biaya parkir */
-        .popup-inner p {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #555;
-        }
-
-        /* Style untuk tombol OK */
-        .btn-ok {
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .btn-ok:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-    <div class="popup">
-        <div class="popup-inner">
-            <h4>Biaya Parkir</h4>
-            <hr>
-            <p style="font-size: 16px;">Rp
-                <?= number_format(round($biayaParkir), 0, ',', '.'); ?>
-            </p>
-            <button class="btn-ok" onclick="closePopup()">OK</button>
+<body  style="background-color: #fff;">
+    <div class="container d-flex justify-content-center">
+        <div class="card p-3 shadow" style="width: 300px; margin: 200px auto;">
+            <div class="card-body">
+                <h3 class="card-title text-center">Biaya Parkir</h3><hr>
+                <div class="card-text">
+                    <div class="text-center fs-5 mt-4">
+                        RP. <?= number_format(round($biayaParkir), 0, ',', '.'); ?>
+                    </div>
+                    <a href="home.php" class="btn btn-primary mt-4" style="width: 100%;"><i class="fa-solid fa-check fa-lg" style="color: #ffffff;"></i></a>
+                </div>  
         </div>
-    </div>
-
-    <script>
-        function closePopup() {
-            document.querySelector('.popup').style.display = 'none';
-            window.location.href = "home.php";
-        }
-    </script>
+    </div>  
 </body>
 
 </html>

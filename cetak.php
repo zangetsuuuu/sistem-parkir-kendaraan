@@ -20,14 +20,14 @@ if (isset($_GET['id'])) {
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Eksternal CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="background-color: #fff;">
     <div class="container d-flex justify-content-center">
-        <div class="card p-3 shadow" style="width: 450px; margin: 160px auto;">
+        <div class="card p-3 shadow" style="width: 450px; margin: 120px auto;">
             <div class="card-body">
                 <h3 class="card-title text-center">Karcis Parkir</h3><hr>
                 <div class="card-text mt-4 d-flex justify-content-between">
@@ -51,7 +51,6 @@ if (isset($_GET['id'])) {
                     <span><?= $row['merk']; ?></span>
                 </div>
                 <div class="text-center mt-5" style="font-size: 14px; color: gray;"><i class="fa-solid fa-triangle-exclamation me-2"></i>Pastikan karcis jangan sampai hilang!</div>
-
             </div>
         </div>
     </div>

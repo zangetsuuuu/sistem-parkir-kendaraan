@@ -2,10 +2,13 @@
 
 body {
     font-family: "Sora", sans-serif;
+    scroll-behavior: smooth;
+    background-color: #EEFCF6;
+    font-size: 14px;
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1250px;
 }
 
 .navbar {
@@ -19,19 +22,25 @@ body {
 }
 
 .btn-primary:hover {
-    background-color: #1b8971;
-    border-color: #1b8971;
+    background-color: #21AB74;
+    border-color: #21AB74;
+}
+
+.btn-secondary {
+    transition: .2s ease-in-out;
+}
+
+.btn-danger {
+    transition: .2s ease-in-out;
 }
 
 .btn-outline {
     border-color: #d4f8ea;
-    border-color: #fff;
     transition: 0.2s ease-in-out;
 }
 
 .btn-outline:hover {
-    background-color: #1b8971;
-    border-color: #1b8971;
+    background-color: #21AB74;
 }
 
 table tbody tr td a .btn-warning {

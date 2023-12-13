@@ -26,10 +26,10 @@ include "login.php";
 
         .modal-content {
             background-color: #fff;
-            margin: 80px auto;
+            margin: 50px auto;
             padding: 40px;
             border: 1px solid #888;
-            max-width: 1200px;
+            max-width: 1000px;
             width: 80%;
             border-radius: 10px;
         }
@@ -40,13 +40,13 @@ include "login.php";
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Eksternal CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
 
-<body style="background-color: #EEFCF6;">
+<body>
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg py-3 shadow">
         <div class="container">
@@ -74,11 +74,23 @@ include "login.php";
         </div>
     </nav>
 
+    <!-- Konfirmasi logout -->
+    <div class="modal" id="logout">
+        <div class="modal-content">
+            <div class="h3">Konfirmasi</div><hr style="margin-top: 0px; margin-bottom: 30px;">
+            <div class="fs-5 mb-4">Apakah anda yakin ingin logout? </div>
+            <div class="d-flex justify-content-start">
+                <button id="btn-ya" class="btn btn-primary rounded-pill px-4 me-2">Ya</button>
+                <button id="btn-tidak" class="btn btn-secondary rounded-pill px-4">Tidak</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Konten -->
     <div class="container">
         <!-- Title -->
         <div class="h2 text-center mb-3" style="margin-top: 120px;">Daftar Operator</div>
-        <p class="text-center text-secondary mb-4">Selamat datang, <span class="text-capitalize"><?= $_SESSION["username"]; ?></span></p>
+        <p class="text-center text-secondary fs-6 mb-4">Selamat datang, <span class="text-capitalize"><?= $_SESSION["username"]; ?></span></p>
 
         <!-- Menu Tambah Data dan Back -->
         <div class="card mb-3 border-0 px-4 py-2 rounded-4 shadow-sm">
@@ -92,10 +104,21 @@ include "login.php";
             <div class="modal-content">
                 <div class="h3">Tambah Operator</div><hr style="margin-top: 0px; margin-bottom: 30px;">
                 <form action="tambah.php" method="POST" enctype="multipart/form-data" id="form-tambah-operator">
-                    <div class="form-group mb-3">
-                        <label class="form-label">Username</label>
-                        <input type="text" class="form-control rounded-pill" name="username"
-                            placeholder="Masukkan Username" required>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control rounded-pill" name="username"
+                                    placeholder="Masukkan Username" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="text" class="form-control rounded-pill" name="email"
+                                    placeholder="Masukkan Email" required>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label">Password</label>
@@ -136,7 +159,7 @@ include "login.php";
                         <div class="col-10">
                             <button type="submit" name="tambah"
                                 class="btn btn-primary form-control rounded-pill text-uppercase mt-3">
-                                Tambah Parkir
+                                Tambah
                             </button>
                         </div>
                     </div>
@@ -154,7 +177,7 @@ include "login.php";
                 $totalOperator = $row['total'];
                 ?>
                 <div class="d-flex d-flex justify-content-between">
-                    <div id="table-info" style="display: none; margin-top: 12px;">Menampilkan <?= $totalOperator ?> Data Operator</div>
+                    <div id="table-info" style="display: none; margin-top: 12px;" class="fs-6">Menampilkan <?= $totalOperator ?> Data Operator</div>
 
                     <!-- Search box -->
                     <form method="GET" action="cari.php" class="mb-4" id="table-cari" style="display: none;">
@@ -179,6 +202,7 @@ include "login.php";
                         <tr>
                             <th class="py-3">No</th>
                             <th class="py-3">Username</th>
+                            <th class="py-3">Email</th>
                             <th class="py-3">Jenis Kelamin</th>
                             <th class="py-3">No Telepon</th>
                             <th class="py-3">Alamat</th>
@@ -196,6 +220,7 @@ include "login.php";
                             <tr>
                                 <td class="py-3"><?= $no++ ?></td>
                                 <td class="py-3"><?= $row['username'] ?></td>
+                                <td class="py-3"><?= $row['email'] ?></td>
                                 <td class="py-3"><?= $row['jenis_kelamin'] ?></td>
                                 <td class="py-3"><?= $row['no_telp'] ?></td>
                                 <td class="py-3"><?= $row['alamat'] ?></td>
@@ -213,11 +238,19 @@ include "login.php";
 
     <script>
         function logout() {
-            event.preventDefault(); // Mencegah tindakan default dari link
+            var modal = document.getElementById('logout');
+            modal.style.display = 'block';
 
-            if (confirm("Apakah Anda Yakin Ingin Logout?")) {
-                window.location.href = "index.php";
-            }
+            var yes = document.getElementById('btn-ya');
+            var no = document.getElementById('btn-tidak');
+
+            yes.addEventListener('click', function() {
+                window.location.href = 'logout.php';
+            });
+
+            no.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
         } 
 
         function showTable() {

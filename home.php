@@ -26,10 +26,10 @@ include "login.php";
 
         .modal-content {
             background-color: #fff;
-            margin: 150px auto;
+            margin: 100px auto;
             padding: 40px;
             border: 1px solid #888;
-            max-width: 1200px;
+            max-width: 1000px;
             width: 80%;
             border-radius: 10px;
         }
@@ -40,13 +40,13 @@ include "login.php";
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Eksternal CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
 
-<body style="background-color: #EEFCF6;">
+<body>
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg py-3 shadow">
         <div class="container">
@@ -69,17 +69,28 @@ include "login.php";
                     <span class="text-white p-2">Operator</span>
                 </div>
                 <button type="submit" class="btn btn-outline rounded-pill navbar-brand text-white px-3"
-                    style="margin-right: 0px;" onclick="logout()"><i
-                        class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout</button>
+                    style="margin-right: 0px;" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout</button>
             </div>
         </div>
     </nav>
+
+    <!-- Konfirmasi logout -->
+    <div class="modal" id="logout">
+        <div class="modal-content">
+            <div class="h3">Konfirmasi</div><hr style="margin-top: 0px; margin-bottom: 30px;">
+            <div class="fs-5 mb-4">Apakah anda yakin ingin logout? </div>
+            <div class="d-flex justify-content-start">
+                <button id="btn-ya" class="btn btn-primary rounded-pill px-4 me-2">Ya</button>
+                <button id="btn-tidak" class="btn btn-secondary rounded-pill px-4">Tidak</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Konten -->
     <div class="container">
         <!-- Title -->
         <div class="h2 text-center mb-3" style="margin-top: 120px;">Daftar Parkir Kendaraan</div>
-        <p class="text-center text-secondary mb-4">Selamat datang, <span class="text-capitalize">
+        <p class="text-center text-secondary fs-6 mb-4">Selamat datang, <span class="text-capitalize">
                 <?= $_SESSION["username"]; ?>
             </span></p>
 
@@ -88,7 +99,7 @@ include "login.php";
             <div class="card-body">
                 <button onclick="formTambahKendaraan()" class="btn btn-primary rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-plus me-2"></i>Tambah Kendaraan</button>
                 <button onclick="formKeluarParkir()" class="btn btn-danger rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-xmark me-2"></i>Keluar Parkir</button>
-                <a href="laporan.php" class="btn btn-secondary rounded-pill px-4 py-2"><i class="fa-solid fa-file-lines me-2"></i>Buat Laporan</a>
+                <a href="laporan.php" class="btn btn-secondary rounded-pill px-4 py-2"><i class="fa-solid fa-file-lines me-2"></i>Laporan</a>
             </div>
         </div>
 
@@ -162,7 +173,7 @@ include "login.php";
                 $totalParkir = $row['total'];
                 ?>
                 <div class="d-flex d-flex justify-content-between">
-                    <div id="table-info" style="display: none; margin-top: 12px;">Menampilkan
+                    <div id="table-info" style="display: none; margin-top: 12px;" class="fs-6">Menampilkan
                         <?= $totalParkir ?> Data Parkir
                     </div>
 
@@ -237,12 +248,20 @@ include "login.php";
 
     <script>
         function logout() {
-            event.preventDefault(); // Mencegah tindakan default dari link
+            var modal = document.getElementById('logout');
+            modal.style.display = 'block';
 
-            if (confirm("Apakah Anda Yakin Ingin Logout?")) {
-                window.location.href = "index.php";
-            }
-        }
+            var yes = document.getElementById('btn-ya');
+            var no = document.getElementById('btn-tidak');
+
+            yes.addEventListener('click', function() {
+                window.location.href = 'logout.php';
+            });
+
+            no.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+        } 
 
         function showTable() {
             document.getElementById("loading").style.display = "none";

@@ -11,19 +11,42 @@ include "login.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/images/favicon.svg">
     <title>Cari Operator</title>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 50px auto;
+            padding: 40px;
+            border: 1px solid #888;
+            max-width: 1000px;
+            width: 80%;
+            border-radius: 10px;
+        }
+    </style>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Local CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>    
 </head>
 
-<body style="background-color: #EEFCF6;">
+<body>
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg py-3 shadow">
         <div class="container">
@@ -46,10 +69,22 @@ include "login.php";
                     <span class="text-white p-2">Admin</span>
                 </div>
                 <button type="submit" class="btn btn-outline rounded-pill navbar-brand text-white px-3"
-                    style="margin-right: 0px;" onclick="logout()">Logout</button>
+                    style="margin-right: 0px;" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout</button>
             </div>
         </div>
     </nav>
+
+    <!-- Konfirmasi logout -->
+    <div class="modal" id="logout">
+        <div class="modal-content">
+            <div class="h3">Konfirmasi</div><hr style="margin-top: 0px; margin-bottom: 30px;">
+            <div class="fs-5 mb-4">Apakah anda yakin ingin logout? </div>
+            <div class="d-flex justify-content-start">
+                <button id="btn-ya" class="btn btn-primary rounded-pill px-4 me-2">Ya</button>
+                <button id="btn-tidak" class="btn btn-secondary rounded-pill px-4">Tidak</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Konten -->
     <div class="container">
@@ -61,7 +96,6 @@ include "login.php";
         <div class="card mb-3 border-0 px-4 py-2 rounded-4 shadow-sm">
             <div class="card-body">
                 <a href="javascript:history.go(-1)" class="btn btn-secondary rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-arrow-left me-2"></i>Back</a>
-                <a href="tambah.php" class="btn btn-primary rounded-pill px-4 py-2"><i class="fa-solid fa-plus me-2"></i>Tambah Data</a>
             </div>
         </div>
 
@@ -117,8 +151,8 @@ include "login.php";
                                 <td class="py-3"><?= $row['no_telp'] ?></td>
                                 <td class="py-3"><?= $row['alamat'] ?></td>
                                 <td class="py-3">
-                                    <a href="ubah.php?id=<?= $row['id_operator']; ?>" class="btn btn-info rounded-pill px-3 me-1">Ubah</a>
-                                    <a href="hapus.php?id=<?= $row['id_operator']; ?>" class="btn btn-danger rounded-pill px-3 ms-1">Hapus</a>
+                                    <a href="ubah.php?id=<?= $row['id_operator']; ?>"><i class="fa-solid fa-pen fa-lg fa-fade me-2"></i></a>
+                                    <a href="hapus.php?id=<?= $row['id_operator']; ?>"><i class="fa-solid fa-trash fa-lg fa-fade ms-2"></i></a>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
@@ -131,12 +165,20 @@ include "login.php";
     <script>
         // Script Logout
         function logout() {
-            event.preventDefault(); // Mencegah tindakan default dari link
+            var modal = document.getElementById('logout');
+            modal.style.display = 'block';
 
-            if (confirm("Apakah Anda Yakin Ingin Logout?")) {
-                window.location.href = "index.php";
-            }
-        } 
+            var yes = document.getElementById('btn-ya');
+            var no = document.getElementById('btn-tidak');
+
+            yes.addEventListener('click', function() {
+                window.location.href = 'logout.php';
+            });
+
+            no.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+        }
 
         // Script Loading
         function showTable() {

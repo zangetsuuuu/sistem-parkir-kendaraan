@@ -4,11 +4,12 @@ include "config/koneksi.php";
 if (isset($_POST['tambah'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $email = $_POST['email'];
     $jenis_kelamin = $_POST['jenis_kelamin'];
     $no_telp = $_POST['no_telp'];
     $alamat = $_POST['alamat'];
 
-    $result = mysqli_query($conn, "INSERT INTO operator (username, password, jenis_kelamin, no_telp, alamat) VALUES ('$username', '$password', '$jenis_kelamin', '$no_telp', '$alamat')");
+    $result = mysqli_query($conn, "INSERT INTO operator (username, email, password, jenis_kelamin, no_telp, alamat) VALUES ('$username', '$email', '$password', '$jenis_kelamin', '$no_telp', '$alamat')");
 
     if ($result) {
         echo "<script>alert('Data berhasil ditambahkan!');</script>";
