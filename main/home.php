@@ -1,6 +1,7 @@
 <?php
 include "config/koneksi.php";
 include "login.php";
+include "login_session.php";
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +80,7 @@ include "login.php";
         <div class="modal-content">
             <div class="h3">Konfirmasi</div><hr style="margin-top: 0px; margin-bottom: 30px;">
             <div class="fs-5 mb-4">Apakah anda yakin ingin logout? </div>
-            <div class="d-flex justify-content-start">
+            <div class="d-flex justify-content-end">
                 <button id="btn-ya" class="btn btn-primary rounded-pill px-4 me-2">Ya</button>
                 <button id="btn-tidak" class="btn btn-secondary rounded-pill px-4">Tidak</button>
             </div>
@@ -99,7 +100,7 @@ include "login.php";
             <div class="card-body">
                 <button onclick="formTambahKendaraan()" class="btn btn-primary rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-plus me-2"></i>Tambah Kendaraan</button>
                 <button onclick="formKeluarParkir()" class="btn btn-danger rounded-pill px-4 py-2 me-2"><i class="fa-solid fa-xmark me-2"></i>Keluar Parkir</button>
-                <a href="laporan.php" class="btn btn-secondary rounded-pill px-4 py-2"><i class="fa-solid fa-file-lines me-2"></i>Laporan</a>
+                <button onclick="laporanParkir()" class="btn btn-secondary rounded-pill px-4 py-2"><i class="fa-solid fa-file-lines me-2"></i>Laporan</button>
             </div>
         </div>
 
@@ -115,7 +116,7 @@ include "login.php";
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label">Jenis Kendaraan</label>
-                        <select name="jenis_kendaraan" class="form-control rounded-pill" required>
+                        <select name="jenis_kendaraan" class="form-select rounded-pill" required>
                             <option>Pilih Jenis Kendaraan</option>
                             <option value="Motor">Motor</option>
                             <option value="Mobil">Mobil</option>
@@ -126,9 +127,9 @@ include "login.php";
                         <label class="form-label">Merk</label>
                         <input type="text" class="form-control rounded-pill" name="merk" placeholder="Masukkan Merk Kendaraan" required>
                     </div>
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col">
-                            <button type="button" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3" onclick="closeTambahKendaraan()"><i class="fa-solid fa-arrow-left me-2"></i>Back</button>
+                            <button type="button" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3" onclick="closeTambahKendaraan()">Batal</button>
                         </div>
                         <div class="col-10">
                             <button type="submit" name="tambah_parkir" class="btn btn-primary form-control rounded-pill text-uppercase mt-3">Tambah Parkir</button>
@@ -148,9 +149,9 @@ include "login.php";
                         <input type="text" class="form-control rounded-pill" name="id_parkir"
                             placeholder="Masukkan ID Parkir" required>
                     </div>
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col">
-                            <button type="button" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3" onclick="closeKeluarParkir()"><i class="fa-solid fa-arrow-left me-2"></i>Back</button>
+                            <button type="button" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3" onclick="closeKeluarParkir()">Batal</button>
                         </div>
                         <div class="col-10">
                             <button type="submit" name="keluar"
@@ -158,6 +159,42 @@ include "login.php";
                                 Konfirmasi
                             </button>
                         </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Pilih laporan -->
+        <div id="laporanParkir" class="modal">
+            <div class="modal-content">
+                <div class="d-flex justify-content-between">
+                    <div class="h3">Laporan</div>
+                    <div class="btn btn-close" onclick="closeLaporan()"></div>
+                </div>
+                <hr style="margin-top: 0px; margin-bottom: 30px;">
+                <div class="fs-6 card-text mb-4">Buat laporan berdasarkan:</div>
+                <div class="row">
+                    <div class="col">
+                        <a href="laporan.php?all" class="btn btn-primary rounded-pill px-4 me-2">Semua Data</a>
+                        <button type="button" class="btn btn-secondary rounded-pill px-4 me-2" onclick="inputTanggal()">Tanggal</button>
+                        <button onclick="inputJenisKendaraan()" class="btn btn-secondary rounded-pill px-4">Jenis Kendaraan</button>
+                    </div>
+                </div>
+                <form id="tanggalForm" method="GET" action="laporan.php" class="mt-4" style="display: none;">
+                    <div class="input-group">
+                        <input type="date" class="form-control rounded-pill me-2" name="tanggal">
+                        <button type="submit" class="btn btn-primary rounded-pill px-4"><i class="fa-solid fa-file-pdf me-2"></i>Buat</button>
+                    </div>
+                </form>
+                <form id="jenisKendaraanForm" method="GET" action="laporan.php" class="mt-4" style="display: none;">
+                    <div class="input-group">
+                        <select name="jenis_kendaraan" class="form-select rounded-pill me-2" required>
+                            <option>Pilih Jenis Kendaraan</option>
+                            <option value="Motor">Motor</option>
+                            <option value="Mobil">Mobil</option>
+                            <option value="Bis/Truk/Lainnya">Bis/Truk/Lainnya</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4"><i class="fa-solid fa-file-pdf me-2"></i>Buat</button>
                     </div>
                 </form>
             </div>
@@ -173,12 +210,17 @@ include "login.php";
                 $totalParkir = $row['total'];
                 ?>
                 <div class="d-flex d-flex justify-content-between">
-                    <div id="table-info" style="display: none; margin-top: 12px;" class="fs-6">Menampilkan
-                        <?= $totalParkir ?> Data Parkir
-                    </div>
+                    <?php
+                    if (isset($_GET['keyword'])) {
+                        $keyword = $_GET['keyword'];
+                        echo "<div id=\"table-info\" style=\"display: none; margin-top: 12px;\" class=\"fs-6\">Hasil Pencarian: $keyword</div>";
+                    } else {
+                        echo "<div id=\"table-info\" style=\"display: none; margin-top: 12px;\" class=\"fs-6\">Menampilkan $totalParkir Data Parkir</div>";
+                    }
+                    ?>  
 
                     <!-- Search box -->
-                    <form method="GET" action="cari_parkir.php" class="mb-4" id="table-cari" style="display: none;">
+                    <form method="GET" class="mb-4" id="table-cari" style="display: none;">
                         <div class="input-group">
                             <input type="text" class="form-control rounded-pill me-2" name="keyword"
                                 placeholder="Cari data parkir...">
@@ -214,9 +256,15 @@ include "login.php";
                     </thead>
                     <tbody>
                         <?php
-                        $no = 1;
-                        $result = mysqli_query($conn, "SELECT * FROM parkir ORDER BY waktu_masuk DESC ");
+                        if (isset($_GET['keyword'])) {
+                            $keyword = $_GET['keyword'];
+                            $query = "SELECT * FROM parkir WHERE id_parkir LIKE '%$keyword%' OR plat_nomor LIKE '%$keyword%'";
+                            $result = mysqli_query($conn, $query);
+                        } else {
+                            $result = mysqli_query($conn, "SELECT * FROM parkir ORDER BY waktu_masuk DESC");
+                        }
 
+                        $no = 1;
                         // Looping untuk menampilkan data operator
                         while ($row = mysqli_fetch_array($result)):
                             ?>
@@ -292,6 +340,35 @@ include "login.php";
         function closeKeluarParkir() {
             var modal = document.getElementById('keluarParkir');
             modal.style.display = 'none';
+        }
+        
+        // Laporan
+        function laporanParkir() {
+            var modal = document.getElementById('laporanParkir');
+            modal.style.display = 'block';
+        }
+
+        function closeLaporan() {
+            var modal = document.getElementById('laporanParkir');
+            modal.style.display = 'none';
+        }
+
+        function inputTanggal() {
+            var dateInput = document.getElementById('tanggalForm');
+            if (dateInput.style.display === 'none') {
+                dateInput.style.display = 'block';
+            } else {
+                dateInput.style.display = 'none';
+            }
+        }
+
+        function inputJenisKendaraan() {
+            var vehicleInput = document.getElementById('jenisKendaraanForm');
+            if (vehicleInput.style.display === 'none') {
+                vehicleInput.style.display = 'block';
+            } else {
+                vehicleInput.style.display = 'none';
+            }
         }
     </script>
 

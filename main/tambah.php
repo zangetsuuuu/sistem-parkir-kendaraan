@@ -12,7 +12,6 @@ if (isset($_POST['tambah'])) {
     $result = mysqli_query($conn, "INSERT INTO operator (username, email, password, jenis_kelamin, no_telp, alamat) VALUES ('$username', '$email', '$password', '$jenis_kelamin', '$no_telp', '$alamat')");
 
     if ($result) {
-        echo "<script>alert('Data berhasil ditambahkan!');</script>";
         echo "<script>window.location.href='home_admin.php';</script>";
     } else {
         echo "<script>alert('Data gagal ditambahkan!');</script>";
@@ -32,7 +31,6 @@ elseif (isset($_POST['tambah_parkir'])) {
     $result = mysqli_query($conn, "INSERT INTO parkir (id_parkir, plat_nomor, merk, jenis_kendaraan, waktu_masuk, status_parkir) VALUES ('$id_parkir', '$plat_nomor', '$merk', '$jenis_kendaraan', NOW(), '$status_parkir')");
 
     if ($result) {
-        echo "<script>alert('Data berhasil ditambahkan!');</script>";
         echo "<script>window.location.href='home.php';</script>";
     } else {
         echo "<script>alert('Data gagal ditambahkan!');</script>";

@@ -26,8 +26,8 @@ if (isset($_GET['id'])) {
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
 <body style="background-color: #fff;">
-    <div class="container d-flex justify-content-center">
-        <div class="card p-3 shadow" style="width: 450px; margin: 120px auto;">
+    <div class="container">
+        <div class="card p-3 shadow" style="width: 450px; margin: 130px auto;">
             <div class="card-body">
                 <h3 class="card-title text-center">Karcis Parkir</h3><hr>
                 <div class="card-text mt-4 d-flex justify-content-between">

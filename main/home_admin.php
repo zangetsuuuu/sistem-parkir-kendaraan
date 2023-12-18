@@ -1,6 +1,7 @@
 <?php
 include "config/koneksi.php";
 include "login.php";
+include "login_session.php";
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +80,7 @@ include "login.php";
         <div class="modal-content">
             <div class="h3">Konfirmasi</div><hr style="margin-top: 0px; margin-bottom: 30px;">
             <div class="fs-5 mb-4">Apakah anda yakin ingin logout? </div>
-            <div class="d-flex justify-content-start">
+            <div class="d-flex justify-content-end">
                 <button id="btn-ya" class="btn btn-primary rounded-pill px-4 me-2">Ya</button>
                 <button id="btn-tidak" class="btn btn-secondary rounded-pill px-4">Tidak</button>
             </div>
@@ -104,7 +105,7 @@ include "login.php";
             <div class="modal-content">
                 <div class="h3">Tambah Operator</div><hr style="margin-top: 0px; margin-bottom: 30px;">
                 <form action="tambah.php" method="POST" enctype="multipart/form-data" id="form-tambah-operator">
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col">
                             <div class="form-group mb-3">
                                 <label class="form-label">Username</label>
@@ -125,11 +126,11 @@ include "login.php";
                         <input type="text" class="form-control rounded-pill" name="password"
                             placeholder="Masukkan Password" required>
                     </div>
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col">
                             <div class="form-group mb-3">
                                 <label class="form-label">Jenis Kelamin</label>
-                                <select name="jenis_kelamin" class="form-control rounded-pill" required>
+                                <select name="jenis_kelamin" class="form-select rounded-pill" required>
                                     <option>Pilih Jenis Kelamin</option>
                                     <option value="Laki-laki">Laki-laki</option>
                                     <option value="Perempuan">Perempuan</option>
@@ -144,12 +145,11 @@ include "login.php";
                             </div>
                         </div>
                     </div>
-                    
                     <div class="form-group mb-3">
                         <label class="form-label">Alamat</label>
                         <textarea name="alamat" class="form-control rounded-4" cols="30" rows="3" style="resize: none;" placeholder="Masukkan Alamat" required></textarea>
                     </div>
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col">
                             <button type="button" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3"
                                 onclick="closeOperator()">
@@ -170,17 +170,24 @@ include "login.php";
         <!-- Tabel Daftar Operator -->
         <div class="card border-0 px-4 py-2 rounded-4 shadow-sm">
             <div class="card-body">
-                <!-- Jumlah operator -->
+                <!-- Jumlah operator dan hasil Pencarian -->
                 <?php
                 $result = mysqli_query($conn, "SELECT COUNT(*) AS total FROM operator");
                 $row = mysqli_fetch_assoc($result);
                 $totalOperator = $row['total'];
                 ?>
                 <div class="d-flex d-flex justify-content-between">
-                    <div id="table-info" style="display: none; margin-top: 12px;" class="fs-6">Menampilkan <?= $totalOperator ?> Data Operator</div>
+                    <?php
+                    if (isset($_GET['keyword'])) {
+                        $keyword = $_GET['keyword'];
+                        echo "<div id=\"table-info\" style=\"display: none; margin-top: 12px;\" class=\"fs-6\">Hasil Pencarian: $keyword</div>";
+                    } else {
+                        echo "<div id=\"table-info\" style=\"display: none; margin-top: 12px;\" class=\"fs-6\">Menampilkan $totalOperator Data Operator</div>";
+                    }
+                    ?>                    
 
                     <!-- Search box -->
-                    <form method="GET" action="cari.php" class="mb-4" id="table-cari" style="display: none;">
+                    <form method="GET" class="mb-4" id="table-cari" style="display: none;">
                         <div class="input-group">
                             <input type="text" class="form-control rounded-pill me-2" name="keyword" placeholder="Cari operator...">
                             <button type="submit" class="btn btn-primary rounded-pill px-4"><i class="fa-solid fa-magnifying-glass me-2"></i>Cari</button>
@@ -211,9 +218,15 @@ include "login.php";
                     </thead>
                     <tbody>
                         <?php
-                        $no = 1;
-                        $result = mysqli_query($conn, "SELECT * FROM operator ORDER BY id_operator ASC");
+                        if (isset($_GET['keyword'])) {
+                            $keyword = $_GET['keyword'];
+                            $query = "SELECT * FROM operator WHERE username LIKE '%$keyword%'";
+                            $result = mysqli_query($conn, $query);
+                        } else {
+                            $result = mysqli_query($conn, "SELECT * FROM operator ORDER BY id_operator ASC");
+                        }
 
+                        $no = 1;
                         // Looping untuk menampilkan data operator
                         while ($row = mysqli_fetch_array($result)) :
                         ?>

@@ -1,5 +1,6 @@
 <?php
 include "config/koneksi.php";
+include "login_session.php";
 
 if (isset($_POST['update'])) {
 
@@ -14,7 +15,6 @@ if (isset($_POST['update'])) {
         $result = mysqli_query($conn, "UPDATE operator SET username = '$username', email = '$email', password = '$password' jenis_kelamin = '$jenis_kelamin', no_telp = '$no_telp', alamat = '$alamat' WHERE id_operator = '$_GET[id]'");
 
         if ($result) {
-            echo "<script>alert('Data berhasil diubah!');</script>";
             echo "<script>window.location.href='home_admin.php';</script>";
         } else {
             echo "<script>alert('Data gagal diubah!');</script>";
