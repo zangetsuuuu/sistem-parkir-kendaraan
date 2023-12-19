@@ -123,7 +123,7 @@ include "login_session.php";
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label">Password</label>
-                        <input type="text" class="form-control rounded-pill" name="password"
+                        <input type="password" class="form-control rounded-pill" name="password"
                             placeholder="Masukkan Password" required>
                     </div>
                     <div class="row g-3">
@@ -153,7 +153,7 @@ include "login_session.php";
                         <div class="col">
                             <button type="button" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3"
                                 onclick="closeOperator()">
-                                <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                Batal
                             </button>
                         </div>
                         <div class="col-10">

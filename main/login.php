@@ -23,14 +23,14 @@ if (isset($_POST['login'])) {
     } elseif (isset($_POST['admin'])) {
         $cek_admin = mysqli_query($conn, "SELECT * FROM admin WHERE username = '$username' AND password = '$password'");
 
-        if ($cek_admin) {
+        if (mysqli_num_rows($cek_admin) > 0) {
             $_SESSION["username"] = $username;
             // Login berhasil, redirect ke halaman admin
             header('Location: home_admin.php');
         } else {
             // Login gagal, tampilkan pesan error
-            echo "<script>alert('Username atau Password Salah!')</script>";
-            exit();
+            echo "<script>alert('Username atau Password Salah!');
+			document.location.href='index.php'</script>";
         }
     } else {
         // Belum memilih antara admin atau operator, tampilkan pesan error

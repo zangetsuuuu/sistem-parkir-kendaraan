@@ -1,5 +1,6 @@
 <?php
 include "config/koneksi.php";
+include "login.php";
 include "login_session.php";
 
 if (isset($_POST['update'])) {
@@ -12,7 +13,7 @@ if (isset($_POST['update'])) {
         $no_telp = $_POST['no_telp'];
         $alamat = $_POST['alamat'];
 
-        $result = mysqli_query($conn, "UPDATE operator SET username = '$username', email = '$email', password = '$password' jenis_kelamin = '$jenis_kelamin', no_telp = '$no_telp', alamat = '$alamat' WHERE id_operator = '$_GET[id]'");
+        $result = mysqli_query($conn, "UPDATE operator SET username = '$username', email = '$email', password = '$password', jenis_kelamin = '$jenis_kelamin', no_telp = '$no_telp', alamat = '$alamat' WHERE id_operator = '$_GET[id]'");
 
         if ($result) {
             echo "<script>window.location.href='home_admin.php';</script>";
@@ -130,7 +131,7 @@ $conn->close();
                 <!-- Form Ubah -->
                 <div class="h3" style="display: none;" id="form-title">Ubah Data</div><hr style="margin-top: 0px; margin-bottom: 30px; display: none;" id="form-hr">
                 <form method="POST" enctype="multipart/form-data" id="form-ubah" style="display: none;">
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col">
                             <div class="form-group mb-3">
                                 <label class="form-label">Username</label>
@@ -150,11 +151,11 @@ $conn->close();
                         <label class="form-label">Password</label>
                         <input type="password" class="form-control rounded-pill" name="password" placeholder="Masukkan Password" value="<?= $password ?>" required>
                     </div>
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col">
                             <div class="form-group mb-3">
                                 <label class="form-label">Jenis Kelamin</label>
-                                <select name="jenis_kelamin" class="form-control rounded-pill" required>
+                                <select name="jenis_kelamin" class="form-select rounded-pill" required>
                                     <option>Pilih Jenis Kelamin</option>
                                     <option value="Laki-laki" <?= ($jenis_kelamin == 'Laki-laki') ? 'selected' : '' ?>>Laki-laki</option>
                                     <option value="Perempuan" <?= ($jenis_kelamin == 'Perempuan') ? 'selected' : '' ?>>Perempuan</option>
@@ -173,9 +174,9 @@ $conn->close();
                         <label class="form-label">Alamat</label>
                         <textarea name="alamat" class="form-control rounded-4" cols="30" rows="3" style="resize: none;" placeholder="Masukkan Alamat" required><?= $alamat ?></textarea>
                     </div>
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col">
-                            <a href="javascript:history.go(-1)" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3"><i class="fa-solid fa-arrow-left me-2"></i>Back</a>
+                            <a href="javascript:history.go(-1)" class="btn btn-secondary form-control rounded-pill px-4 me-2 mt-3">Batal</a>
                         </div>
                         <div class="col-10">
                             <button type="submit" name="update" class="btn btn-primary form-control rounded-pill text-uppercase mt-3">Ubah</button>

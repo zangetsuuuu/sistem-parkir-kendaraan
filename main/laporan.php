@@ -7,9 +7,15 @@ $pdf = new FPDF();
 $pdf->AddPage('A4');
 $pdf->SetTitle('Laporan Parkir');
 
+// Judul laporan
+$pdf->SetFont('Arial', 'B', 24);
+$pdf->Cell(10, 5, '', 0, 1);
+$pdf->Cell(280, 7, 'LAPORAN DAFTAR PARKIR KENDARAAN', 0, 1, 'C');
+$pdf->Cell(10, 12, '', 0, 1);
+
 if (isset($_GET["all"])) {
     // Judul tabel
-    $pdf->SetFont('Helvetica', 'B', 10);
+    $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(10, 10, 'No', 1, 0, 'C');
     $pdf->Cell(30, 10, 'ID Parkir', 1, 0, 'C');
     $pdf->Cell(30, 10, 'Plat Nomor', 1, 0, 'C');
@@ -37,8 +43,12 @@ if (isset($_GET["all"])) {
 }
 
 elseif (isset($_GET["tanggal"])) {
-    // Judul tabel
-    $pdf->SetFont('Helvetica', 'B', 10);
+    
+    $tanggal = $_GET["tanggal"];
+
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(0, 10, "Daftar parkir pada tanggal " . date('d-m-Y', strtotime($tanggal)), 0, 1, 'C');
+
     $pdf->Cell(10, 10, 'No', 1, 0, 'C');
     $pdf->Cell(30, 10, 'ID Parkir', 1, 0, 'C');
     $pdf->Cell(30, 10, 'Plat Nomor', 1, 0, 'C');
@@ -49,7 +59,6 @@ elseif (isset($_GET["tanggal"])) {
     $pdf->Cell(40, 10, 'Biaya Parkir', 1, 1, 'C');
 
     // Query data dari database
-    $tanggal = $_GET["tanggal"];
     $no = 1;
     $result = mysqli_query($conn, "SELECT * FROM parkir WHERE waktu_masuk LIKE '%$tanggal%'");
 
@@ -67,8 +76,12 @@ elseif (isset($_GET["tanggal"])) {
 }
 
 elseif (isset($_GET["jenis_kendaraan"])) {
-    // Judul tabel
-    $pdf->SetFont('Helvetica', 'B', 10);
+
+    $jk = $_GET["jenis_kendaraan"];
+
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(0, 10, "Daftar parkir dengan jenis kendaraan '$jk'", 0, 1, 'C');
+
     $pdf->Cell(10, 10, 'No', 1, 0, 'C');
     $pdf->Cell(30, 10, 'ID Parkir', 1, 0, 'C');
     $pdf->Cell(30, 10, 'Plat Nomor', 1, 0, 'C');
@@ -79,7 +92,6 @@ elseif (isset($_GET["jenis_kendaraan"])) {
     $pdf->Cell(40, 10, 'Biaya Parkir', 1, 1, 'C');
 
     // Query data dari database
-    $jk = $_GET["jenis_kendaraan"];
     $no = 1;
     $result = mysqli_query($conn, "SELECT * FROM parkir WHERE jenis_kendaraan LIKE '%$jk%'");
 
