@@ -65,6 +65,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/images/favicon.svg">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <title>Biaya Parkir</title>
 
     <!-- Bootstrap CSS -->
@@ -78,7 +79,7 @@ $conn->close();
     <script src="https://kit.fontawesome.com/a404219d80.js" crossorigin="anonymous"></script>
 </head>
 
-<body style="background-color: #fff;">
+<body>
     <div class="container d-flex justify-content-center">
         <div class="card p-3 shadow" style="width: 300px; margin: 200px auto;">
             <div class="card-body">

@@ -175,14 +175,21 @@ include "login_session.php";
                 <div class="fs-6 card-text mb-4">Buat laporan berdasarkan:</div>
                 <div class="row">
                     <div class="col">
-                        <a href="laporan.php?all" class="btn btn-primary rounded-pill px-4 me-2">Semua Data</a>
+                        <button type="button" class="btn btn-primary rounded-pill px-4 me-2" onclick="semuaData()">Semua Data</button>
                         <button type="button" class="btn btn-secondary rounded-pill px-4 me-2" onclick="inputTanggal()">Tanggal</button>
                         <button onclick="inputJenisKendaraan()" class="btn btn-secondary rounded-pill px-4">Jenis Kendaraan</button>
                     </div>
                 </div>
+                <form id="allDataForm" method="GET" action="laporan.php" class="mt-4" style="display: none;">
+                    <div class="input-group">
+                        <input type="text" class="form-control rounded-pill me-2" name="keterangan" placeholder="Keterangan" required>
+                        <button type="submit" name="all" class="btn btn-primary rounded-pill px-4"><i class="fa-solid fa-file-pdf me-2"></i>Buat</button>
+                    </div>
+                </form>
                 <form id="tanggalForm" method="GET" action="laporan.php" class="mt-4" style="display: none;">
                     <div class="input-group">
                         <input type="date" class="form-control rounded-pill me-2" name="tanggal">
+                        <input type="text" class="form-control rounded-pill me-2" name="keterangan" placeholder="Keterangan" required>
                         <button type="submit" class="btn btn-primary rounded-pill px-4"><i class="fa-solid fa-file-pdf me-2"></i>Buat</button>
                     </div>
                 </form>
@@ -194,6 +201,7 @@ include "login_session.php";
                             <option value="Mobil">Mobil</option>
                             <option value="Bis/Truk/Lainnya">Bis/Truk/Lainnya</option>
                         </select>
+                        <input type="text" class="form-control rounded-pill me-2" name="keterangan" placeholder="Keterangan" required>
                         <button type="submit" class="btn btn-primary rounded-pill px-4"><i class="fa-solid fa-file-pdf me-2"></i>Buat</button>
                     </div>
                 </form>
@@ -201,7 +209,7 @@ include "login_session.php";
         </div>
 
         <!-- Tabel Daftar Operator -->
-        <div class="card border-0 px-4 py-2 rounded-4 shadow-sm">
+        <div class="card border-0 px-4 py-2 rounded-4 shadow-sm mb-5">
             <div class="card-body">
                 <!-- Jumlah operator -->
                 <?php
@@ -265,9 +273,14 @@ include "login_session.php";
                         }
 
                         $no = 1;
-                        // Looping untuk menampilkan data operator
-                        while ($row = mysqli_fetch_array($result)):
-                            ?>
+    
+                        // Memeriksa jumlah baris yang dikembalikan
+                        $row_count = mysqli_num_rows($result);
+                        
+                        if ($row_count > 0) {
+                            // Looping untuk menampilkan data operator
+                            while ($row = mysqli_fetch_array($result)) :
+                        ?>
                             <tr>
                                 <td class="py-3"><?= $no++ ?></td>
                                 <td class="py-3"><?= $row['id_parkir'] ?></td>
@@ -285,9 +298,14 @@ include "login_session.php";
                                     ?>
                                 </td>
                                 <td class="py-3"><?= $row['status_parkir'] ?></td>
-                                <td class="py-3"><a href="cetak.php?id=<?= $row['id_parkir'] ?>"><i class="fa-solid fa-print" style="color: #26C485;"></i></a></td>
+                                <td class="py-3"><a target="_blank" href="cetak.php?id=<?= $row['id_parkir'] ?>"><i class="fa-solid fa-lg fa-print" style="color: #26C485;"></i></a></td>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php
+                            endwhile;
+                        } else {
+                            echo '<tr><td colspan="9" class="text-center">Tidak ada data</td></tr>';
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -351,6 +369,15 @@ include "login_session.php";
         function closeLaporan() {
             var modal = document.getElementById('laporanParkir');
             modal.style.display = 'none';
+        }
+
+        function semuaData() {
+            var allData = document.getElementById('allDataForm');
+            if (allData.style.display === 'none') {
+                allData.style.display = 'block';
+            } else {
+                allData.style.display = 'none';
+            }
         }
 
         function inputTanggal() {

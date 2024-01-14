@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 body {
-    font-family: "Sora", sans-serif;
+    font-family: "Inter", sans-serif;
     scroll-behavior: smooth;
     background-color: #EEFCF6;
     font-size: 14px;
@@ -12,6 +12,10 @@ body {
 }
 
 .navbar {
+    background: #26C485;
+}
+
+.footer {
     background: #26C485;
 }
 
